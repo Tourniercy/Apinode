@@ -65,4 +65,15 @@ router.route('/')
         });
 
     })
+router.route('/metier/:troc_metier')
+    .get(function(req,res){
+        troc.find({metier: req.params.troc_metier}, function (err, r) {
+            if (err) {
+                return handleError(err);
+            }
+            else {
+                res.json({message : r, methode : req.method});
+            }
+        });
+    });
 module.exports = router;

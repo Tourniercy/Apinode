@@ -7,17 +7,13 @@ let UserSchema = mongoose.Schema({
         type    : String,
         required : true,
         unique  : true,
-        match   : /^[a-z0-9._-]+@[a-z0-9._-]+\.[a-z]{2,6}$/
+        match   : /^[a-zA-Z0-9.-]+@[a-z0-9.-]+.[a-z]{2,6}$/
     },
     password : {
         type    : String,
         required : true
     },
-    password2 : {
-        type    : String,
-        required : false
-    },
-},{ collection : 'users' });
+},{versionKey: false},{ collection : 'users' });
 
 //This is called a pre-hook, before the user information is saved in the database
 //this function will be called, we'll get the plain text password, hash it and store it.

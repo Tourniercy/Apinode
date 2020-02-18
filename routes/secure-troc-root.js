@@ -1,22 +1,11 @@
 const express = require('express');
-
+const troc = require('../model/modeltroc');
 const router = express.Router();
 
-//Lets say the route below is very sensitive and we want only authorized users to have access
-
-//Displays information tailored according to the logged in user
-router.get('/profile', (req, res, next) => {
-    //We'll just send back the user details and the token
-    res.json({
-        message : 'You made it to the secure route',
-        user : req.user,
-        token : req.query.secret_token
-    })
-});
-router(':troc_id')
+router.route('/:troc_id')
     .get(function(req,res) {
         //Mongoose prévoit une fonction pour la recherche d'un document par son identifiant
-        Troc.findById(req.params.troc_id, function (err, r) {
+        troc.findById(req.params.troc_id, function (err, r) {
             if (err)
                 res.send(err);
             res.json({message: r});
@@ -24,7 +13,7 @@ router(':troc_id')
     })
     .put(function(req,res){
         // On commence par rechercher la piscine souhaitée
-        Troc.findById(req.params.troc_id, function(err, r) {
+        troc.findById(req.params.troc_id, function(err, r) {
             if (err){
                 res.send(err);
             }
@@ -41,11 +30,39 @@ router(':troc_id')
         });
     })
     .delete(function(req,res){
-        Troc.deleteOne({_id: req.params.troc_id}, function(err, r){
+        troc.deleteOne({_id: req.params.troc_id}, function(err, r){
             if (err){
                 res.send(err);
             }
             res.json({message:"Bravo,troc supprimée"});
         });
     });
+router.route('/')
+// J'implémente les méthodes GET, PUT, UPDATE et DELETE
+// GET
+    .get(function(req,res){
+        troc.find({}, function (err, r) {
+            if (err) {
+                return handleError(err);
+            }
+            else {
+                res.json({message : r, methode : req.method});
+            }
+        });
+    })
+    //POST
+    .post(function(req,res){
+        troc.create({ metier: req.body.metier, description: req.body.description }, function (err, r) {
+            if (err) {
+                return handleError(err);
+            }
+            else {
+                res.json({message : "Ajout d'un un nouveau troc à la liste",
+                    metier : req.body.metier,
+                    description : req.body.description});
+                // saved!
+            }
+        });
+
+    })
 module.exports = router;

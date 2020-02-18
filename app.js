@@ -15,9 +15,11 @@ app.use( bodyParser.urlencoded({ extended : false }) );
 
 const routes = require('./routes/routes.js');
 const secureRoute = require('./routes/secure-root.js')
+const secureRouteTroc = require('./routes/secure-troc-root.js')
 app.use('/', routes);
 //We plugin our jwt strategy as a middleware so only verified users can access this route
 app.use('/user', passport.authenticate('jwt', { session : false }), secureRoute );
+app.use('/troc', passport.authenticate('jwt', { session : false }), secureRouteTroc );
 
 //Handle errors
 app.use(function(err, req, res, next) {

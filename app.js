@@ -4,8 +4,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const app = express();
 const UserModel = require('./model/model');
-
-mongoose.connect('mongodb+srv://root:toor@cluster0-qzdlg.gcp.mongodb.net/api?retryWrites=true&w=majority',{useCreateIndex: true,
+mongoose.connect('mongodb+srv://trocServiceAdmin:root@cluster0-cjeps.mongodb.net/api?retryWrites=true&w=majority',{useCreateIndex: true,
     useNewUrlParser: true,useUnifiedTopology: true });
 
 mongoose.connection.on('error', error => console.log(error) );

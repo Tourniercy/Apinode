@@ -14,9 +14,9 @@ router.post('/signup', passport.authenticate('signup', { session : false }) , as
 });
 router.post('/login', async (req, res, next) => {
     passport.authenticate('login', async (err, user, info) => {     try {
+        console.log(info);
         if(err || !user){
-            const error = new Error("Erreur d'authentification")
-            return next(error);
+            return next(info);
         }
         req.login(user, { session : false }, async (error) => {
             if( error ) return next(error)
@@ -28,7 +28,7 @@ router.post('/login', async (req, res, next) => {
             //Send back the token to the user
             return res.json({ token });
         });     } catch (error) {
-        return next(error);
+        return 1;
     }
     })(req, res, next);
 });

@@ -8,14 +8,14 @@ const router = express.Router();
 //middleware created previously
 router.post('/signup', passport.authenticate('signup', { session : false }) , async (req, res, next) => {
     await res.json({
-        message: 'Signup successful',
+        message: 'Creation de compte réussi',
         user: req.user
     });
 });
 router.post('/login', async (req, res, next) => {
     passport.authenticate('login', async (err, user, info) => {     try {
         if(err || !user){
-            const error = new Error('An Error occured')
+            const error = new Error("Erreur d'authentification")
             return next(error);
         }
         req.login(user, { session : false }, async (error) => {

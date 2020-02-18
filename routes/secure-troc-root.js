@@ -5,11 +5,15 @@ const router = express.Router();
 router.route('/:troc_id')
     .get(function(req,res) {
         //Mongoose prévoit une fonction pour la recherche d'un document par son identifiant
-        troc.findById(req.params.troc_id, function (err, r) {
-            if (err)
-                res.send(err);
-            res.json({message: r});
-        });
+        if (req.params.troc_id.match(/^[0-9a-fA-F]{24}$/)) {
+            troc.findById(req.params.troc_id, function (err, r) {
+                if (err)
+                    res.send(err);
+                res.json({message: r});
+            });
+        }
+        else (res.json({message: null}))
+
     })
     .put(function(req,res){
         // On commence par rechercher la piscine souhaitée

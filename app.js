@@ -5,7 +5,7 @@ const passport = require('passport');
 const app = express();
 const UserModel = require('./model/model');
 
-mongoose.connect('mongodb+srv://root:password1234@cluster0-2zjso.azure.mongodb.net/test?retryWrites=true&w=majority',{useCreateIndex: true,
+mongoose.connect('mongodb+srv://root:toor@cluster0-qzdlg.gcp.mongodb.net/api?retryWrites=true&w=majority',{useCreateIndex: true,
     useNewUrlParser: true,useUnifiedTopology: true });
 
 mongoose.connection.on('error', error => console.log(error) );

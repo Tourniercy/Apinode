@@ -17,10 +17,6 @@ let UserSchema = mongoose.Schema({
         type    : String,
         required : false
     },
-    registration : {
-        type    : Date,
-        default  : Date.now
-    }
 },{ collection : 'users' });
 
 //This is called a pre-hook, before the user information is saved in the database

@@ -3,12 +3,22 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const app = express();
-const UserModel = require('./model/model');
 mongoose.connect('mongodb+srv://trocServiceAdmin:root@cluster0-cjeps.mongodb.net/api?retryWrites=true&w=majority',{useCreateIndex: true,
     useNewUrlParser: true,useUnifiedTopology: true });
 
 mongoose.connection.on('error', error => console.log(error) );
 mongoose.Promise = global.Promise;
+
+
+const router = require('express').Router();
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./apidoc.yaml');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+
+
 
 require('./auth/auth');
 app.use( bodyParser.urlencoded({ extended : false }) );

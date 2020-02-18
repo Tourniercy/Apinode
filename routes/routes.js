@@ -14,7 +14,6 @@ router.post('/signup', passport.authenticate('signup', { session : false }) , as
 });
 router.post('/login', async (req, res, next) => {
     passport.authenticate('login', async (err, user, info) => {     try {
-        console.log(info);
         if(err || !user){
             return next(info);
         }
@@ -26,11 +25,12 @@ router.post('/login', async (req, res, next) => {
             //Sign the JWT token and populate the payload with the user email and id
             const token = jwt.sign({ user : body },'top_secret');
             //Send back the token to the user
-            return res.json({ token });
+            return res.json({ info,token });
         });     } catch (error) {
         return 1;
     }
     })(req, res, next);
 });
+
 
 module.exports = router;

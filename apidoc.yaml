@@ -1,0 +1,602 @@
+openapi: 3.0.0
+info:
+  title: API
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /signup:
+    post:
+      summary: ''
+      operationId: post-signup
+      responses:
+        '200':
+          description: Signup successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  user:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      email:
+                        type: string
+                      password:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    message: Signup successful
+                    user:
+                      _id: 5e4bbc3bc698570fcc6d6dbc
+                      email: alex@gmail.com
+                      password: $2b$10$ee5NDonIHo16dRabyr4lC.SeMpoBHsk/Mni80PmJW.qfRhiQ3gGGO
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      errors:
+                        type: object
+                        properties:
+                          email:
+                            type: object
+                            properties:
+                              message:
+                                type: string
+                              name:
+                                type: string
+                              properties:
+                                type: object
+                                properties:
+                                  message:
+                                    type: string
+                                  type:
+                                    type: string
+                                  regexp:
+                                    type: string
+                                  path:
+                                    type: string
+                                  value:
+                                    type: string
+                              kind:
+                                type: string
+                              path:
+                                type: string
+                              value:
+                                type: string
+                          _mesasge:
+                            type: string
+                          message:
+                            type: string
+                          name:
+                            type: string
+              examples:
+                example-1:
+                  value:
+                    error:
+                      errors:
+                        email:
+                          message: |-
+                            Path `email` is invalid (alex@gmail.com.@@@@gygttvrefms
+                            :vù:vsqù:
+                            vvs).
+                          name: ValidatorError
+                          properties:
+                            message: |-
+                              Path `email` is invalid (alex@gmail.com.@@@@gygttvrefms
+                              :vù:vsqù:
+                              vvs).
+                            type: regexp
+                            regexp: {}
+                            path: email
+                            value: |-
+                              alex@gmail.com.@@@@gygttvrefms
+                              :vù:vsqù:
+                              vvs
+                          kind: regexp
+                          path: email
+                          value: |-
+                            alex@gmail.com.@@@@gygttvrefms
+                            :vù:vsqù:
+                            vvs
+                      _message: user validation failed
+                      message: |-
+                        user validation failed: email: Path `email` is invalid (alex@gmail.com.@@@@gygttvrefms
+                        :vù:vsqù:
+                        vvs).
+                      name: ValidationError
+      description: "création d'un utilisateur"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  pattern: '/^[a-zA-Z0-9.-]+@[a-z0-9.-]+.[a-z]{2,6}$/'
+                password:
+                  type: string
+            examples:
+              example:
+                value:
+                  email: testemail@email.com
+                  password: testpassword
+          application/x-www-form-urlencoded:
+            schema:
+              type: string
+              format: email
+              example: email@email.com
+            examples:
+              example-1:
+                value:
+                  user: test
+        description: ''
+      parameters: []
+  /login:
+    post:
+      summary: ''
+      operationId: post-login
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                  token:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    info:
+                      message: Logged in Successfully
+                    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVlNGJjNzgyNmI0NDhlMjg2ZGU3NWQyOCIsImVtYWlsIjoiZW1haWxAZ21mm9tIn0sImlhdCI6MTU4MjAyNjg4OH0._X1te-zCZweUAUO82yqjkwrK1Ny77yoU0UQA3qCZ0EI
+          headers: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    error:
+                      message: Wrong Password
+                example-2:
+                  value:
+                    error:
+                      message: User not found
+      description: Connexion et récupération du token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  email: testemail@email.com
+                  password: testpassword
+  user/profile:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  user:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      email:
+                        type: string
+                  token:
+                    type: string
+              examples:
+                example-:
+                  value:
+                    message: You made it to the secure route
+                    user:
+                      _id: 5e4ba7c679b65f283cac633e
+                      email: test@gmail.com
+                    token: eyJhbGciOiJIUzI1NkeaInR5cCI6IkpXVCJ9.eyJ1c2VyIjedIl9pZCI6IjVlNGJhN2M2NzliNjVmMjgzY2FjNjMzZSIsImVtYWlsIjoiZ3VpbGFrYWxhc2hPRkZAZ21haWwuY29tIn0sImlhdCI6MTU4MjAxNzAwMH0.LyCEt04rB99Df69_nx1DS7M8a8Kb_9hr-4X880lgA6E
+        '401':
+          description: Unauthorized
+      operationId: get-profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                secret_token:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  secret_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVlNGJhN2M2NzliNjVmMjgzY2FjNjMzZSIsImVtYWlsIjoiT2VpbGFrYWxhc2hPRkZAZ21haWwuY29tIn0sImlhdCI6MTU4MjAxNzAwMH0.LyCEt04rB99Df69_nx1DS7M8a8Kb_9hr-4X880lgA6E
+      description: "Récuparation des détails d'un utilisateur"
+    parameters: []
+  /troc:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      metier:
+                        type: string
+                      description:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    message:
+                      - _id: 5e4bb97d6c9407509a9bb839
+                        metier: Pompier
+                        description: Stop les flammes
+                      - _id: 5e4bb97f6c9407509a9bb83a
+                        metier: Pompier
+                        description: Stop les flammes
+                      - _id: 5e4bb9806c9407509a9bb83b
+                        metier: Pompier
+                        description: Stop les flammes
+                      - _id: 5e4bba7f6a12945f8d4361fc
+                        metier: Pompier
+                        description: Stop les flammes
+                      - _id: 5e4bbb66c6e39868d7319dcb
+                        metier: Policier
+                        description: Attrape les mechants
+                      - _id: 5e4bbb7bc6e39868d7319dcc
+                        metier: Footballeur
+                        description: Millionaire
+                    methode: GET
+        '401':
+          description: Unauthorized
+      operationId: get-troc
+      description: lister tout les trocs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                secret_token:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  secret_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVlNGJhN2M2NzliNjVmMjgzY2FjNjMzZSIsImVtYWlsIjoiT2VpbGFrYWxhc2hPRkZAZ21haWwuY29tIn0sImlhdCI6MTU4MjAxNzAwMH0.LyCEt04rB99Df69_nx1DS7M8a8Kb_9hr-4X880lgA6E
+    post:
+      summary: ''
+      operationId: post-troc
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  metier:
+                    type: string
+                  description:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    message: "Ajout d'un un nouveau troc à la liste"
+                    metier: vendeur
+                    description: il vend
+        '401':
+          description: Unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                secret_token:
+                  type: string
+                metier:
+                  type: string
+                description:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  secret_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVlNGJiYzNiYzY5ODU3MGZjYzZkNmRiYyIsImVtYWlsIjoiYWxleEBnbWFpbC5jb20ifSwiaWF0IjoxNTgyMDIxNzMwfQ.QMLUJH0znZ7ifL3baYr8nRShY4gQ55OxpGNcO7y4-ee
+                  metier: vendeur
+                  description: il vend
+  '/troc/:troc_id':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  metier:
+                    type: string
+                  description:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    message:
+                      _id: 5e4bb97d6c9407509a9bb839
+                      metier: Pompier
+                      description: Stop les flammes
+        '401':
+          description: Unauthorized
+      operationId: 'get-troc-:troc_id'
+      description: retourner le troc suivant son id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                secret_token:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  secret_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVlNGJiYzNiYzY5ODU3MGZjYzZkNmRiYyIsImVtYWlsIjoiYWxleEBnbWFpbC5jb20ifSwiaWF0IjoxNTgyMDIxNzMwfQ.QMLUJH0znZ7ifL3baYr8nRShY4gQ55OxpGNcO7y4-ee
+    put:
+      summary: ''
+      operationId: 'put-troc-:troc_id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    message: 'Bravo, mise à jour des données OK'
+        '401':
+          description: Unauthorized
+      description: modifie un troc
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                secret_token:
+                  type: string
+                metier:
+                  type: string
+                description:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  secret_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVlNGJiYzNiYzY5ODU3MGZjYzZkNmRiYyIsImVtYWlsIjoiYWxleEBnbWFpbC5jb20ifSwiaWF0IjoxNTgyMDIxNzMwfQ.QMLUJH0znZ7ifL3baYr8nRShY4gQ55OxpGNcO7y4-ee
+                  metier: pompier
+                  description: combat le feu
+    delete:
+      summary: ''
+      operationId: 'delete-troc-:troc_id'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    message: 'Bravo,troc supprimée'
+      description: supprime un troc
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                secret_token:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  secret_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVlNGJiYzNiYzY5ODU3MGZjYzZkNmRiYyIsImVtYWlsIjoiYWxleEBnbWFpbC5jb20ifSwiaWF0IjoxNTgyMDIxNzMwfQ.QMLUJH0znZ7ifL3baYr8nRShY4gQ55OxpGNcO7y4-ee
+  /user:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      email:
+                        type: string
+                  methode:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    message:
+                      - _id: 5e4ba45c83eaf014d474ff61
+                        email: guilakalash@gmail.com
+                      - _id: 5e4ba60974cc0a2fb0c780b7
+                        email: yzdzda@444.com
+                      - _id: 5e4ba63322b6283a206d46c9
+                        email: guilakalashoff@gmail.com
+                    methode: GET
+        '401':
+          description: Unauthorized
+      operationId: get-user
+      description: recupération de tout les utilisateurs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                secret_token:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  secret_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVlNGJiYzNiYzY5ODU3MGZjYzZkNmRiYyIsImVtYWlsIjoiYWxleEBnbWFpbC5jb20ifSwiaWF0IjoxNTgyMDIxNzMwfQ.QMLUJH0znZ7ifL3baYr8nRShY4gQ55OxpGNcO7y4-ee
+  '/troc/metier/:troc_metier':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      metier:
+                        type: string
+                      description:
+                        type: string
+                  methode:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    message:
+                      - _id: 5e4bb97f6c9407509a9bb83a
+                        metier: Pompier
+                        description: Stop les flammes
+                      - _id: 5e4bb9806c9407509a9bb83b
+                        metier: Pompier
+                        description: Stop les flammes
+                      - _id: 5e4bba7f6a12945f8d4361fc
+                        metier: Pompier
+                        description: Stop les flammes
+                    methode: GET
+        '401':
+          description: Unauthorized
+      operationId: get-troc-metier
+      description: recupère tout les troc lié au métier
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                secret_token:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  secret_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVlNGJiYzNiYzY5ODU3MGZjYzZkNmRiYyIsImVtYWlsIjoiYWxleEBnbWFpbC5jb20ifSwiaWF0IjoxNTgyMDIxNzMwfQ.QMLUJH0znZ7ifL3baYr8nRShY4gQ55OxpGNcO7y4-ee
+    parameters: []
+components:
+  schemas:
+    user:
+      title: user
+      type: object
+      description: ''
+      x-examples:
+        example-1: {}
+      properties:
+        _id:
+          type: string
+        email:
+          type: string
+          pattern: '/^[a-z0-9.-]+@[a-z0-9.-]+.[a-z]{2,6}$/'
+        password:
+          type: string
+    troc:
+      title: troc
+      type: object
+      properties:
+        id:
+          type: number
+        metier:
+          type: string
+        description:
+          type: string
+      x-examples:
+        example-1: {}

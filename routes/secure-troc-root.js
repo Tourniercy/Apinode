@@ -17,29 +17,35 @@ router.route('/:troc_id')
     })
     .put(function(req,res){
         // On commence par rechercher la piscine souhaitée
-        troc.findById(req.params.troc_id, function(err, r) {
-            if (err){
-                res.send(err);
-            }
-            // Mise à jour des données de la piscine
-            r.metier = req.body.metier;
-            r.description = req.body.description;
-            r.save(function(err){
-                if(err){
+        if (req.params.troc_id.match(/^[0-9a-fA-F]{24}$/)) {
+            troc.findById(req.params.troc_id, function (err, r) {
+                if (err) {
                     res.send(err);
                 }
-                // Si tout est ok
-                res.json({message : 'Bravo, mise à jour des données OK'});
+                // Mise à jour des données de la piscine
+                r.metier = req.body.metier;
+                r.description = req.body.description;
+                r.save(function (err) {
+                    if (err) {
+                        res.send(err);
+                    }
+                    // Si tout est ok
+                    res.json({message: 'Bravo, mise à jour des données OK'});
+                });
             });
-        });
+        }
+        else (res.json({message: null}))
     })
     .delete(function(req,res){
-        troc.deleteOne({_id: req.params.troc_id}, function(err, r){
-            if (err){
-                res.send(err);
-            }
-            res.json({message:"Bravo,troc supprimée"});
-        });
+        if (req.params.troc_id.match(/^[0-9a-fA-F]{24}$/)) {
+            troc.deleteOne({_id: req.params.troc_id}, function (err, r) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json({message: "Bravo,troc supprimée"});
+            });
+        }
+        else (res.json({message: null}))
     });
 router.route('/')
 // J'implémente les méthodes GET, PUT, UPDATE et DELETE
